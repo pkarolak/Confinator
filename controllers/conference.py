@@ -24,14 +24,11 @@ def view():
 	        deletable=False,
 	        details=False,
 	        create=False,
-	        links=[dict(header='Join it!', body=lambda row: A('Give a speech', _href=URL("conference", "join", vars={"conference":row.id})) )],
+	        links=[dict(header='Join it!', body=lambda row: A('Give a speech', _href=URL("lecture", "new", vars={"conference":row.id})) )],
 	        csv=False,
 	    )
 	return locals()
 
-@auth.requires(auth.has_membership('user'))
-def join():
-	return locals()
 
 @auth.requires(auth.has_membership('user'))
 def new():
