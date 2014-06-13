@@ -223,6 +223,7 @@
 'User ID': 'ID użytkownika',
 'Username': 'Username',
 'Username already taken': 'Username already taken',
+'Value not in database': 'Value not in database',
 'Verify Password': 'Potwierdź hasło',
 'Videos': 'Videos',
 'View': 'Widok',

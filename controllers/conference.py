@@ -13,6 +13,8 @@ def view():
 	        searchable=False,
 	        links=[dict(header='Wanna more info?', body=lambda row: A('Show me!', _href=URL("conference", "details", vars={"conference":row.id})) )],
 	        csv=False,
+	        maxtextlength=200,
+	        
 	    )
 	else:
 		message = "Just look how many conferences are looking for a brilliant speaker!"
@@ -26,6 +28,7 @@ def view():
 	        create=False,
 	        links=[dict(header='Join it!', body=lambda row: A('Give a speech', _href=URL("lecture", "new", vars={"conference":row.id})) )],
 	        csv=False,
+	        maxtextlength=200,
 	    )
 	return locals()
 

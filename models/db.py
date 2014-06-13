@@ -30,7 +30,7 @@ auth.settings.registration_requires_approval = False
 #     Field('zip', length=8, requires=[IS_NOT_EMPTY(), IS_MATCH('^\d{2}-\d{3}?$', error_message='Wrong code format')]),
 #     format = '%(name)s, %(city)s',
 # )
-
+db.auth_user._format = "%(first_name)s %(last_name)s"
 db.define_table(
     'conferences',
     Field('name'),
