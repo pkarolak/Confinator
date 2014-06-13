@@ -1,0 +1,4 @@
+{{extend "layout.html"}}
+<h3>Hi folk!</h3>
+<p>Let's make some conference together!</p>
+<p>Wanna {{=A('make a conference', _href=URL('conference', 'view', vars={"owner":auth.user.id}) )}}? Or contribute to one by {{=A('giving a speech', _href=URL('conference', 'view') )}}?</p>

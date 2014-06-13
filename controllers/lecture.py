@@ -1,3 +1,3 @@
 @auth.requires(auth.has_membership('user'))
-def lecture():
+def view():
 	return locals()
