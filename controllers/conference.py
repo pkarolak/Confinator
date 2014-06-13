@@ -35,6 +35,12 @@ def join():
 
 @auth.requires(auth.has_membership('user'))
 def new():
+	db.conferences.organiser.writable = False
+	db.conferences.organiser.default = auth.user.id
+	crud.settings.create_next = URL('view', vars={"owner": auth.user.id})
+	grid = crud.create(
+			db.conferences,
+		)
 	return locals()
 
 @auth.requires(auth.has_membership('user'))
