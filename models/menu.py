@@ -16,5 +16,5 @@ if auth.user:
         response.menu = [
             ('Organise conference', False, URL('conference', 'view', vars={"owner":auth.user.id})),
             ('Give a speech', False, URL('conference', 'view')),
-            ('Your a speeches', False, URL('lecture', 'view')),
+            ('Your speeches', False, URL('lecture', 'view')),
         ]
