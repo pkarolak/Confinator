@@ -80,3 +80,42 @@ CREATE TABLE lectures(
     lecturer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2014-06-13T19:10:32.489502
+CREATE TABLE talks(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    topic CHAR(100),
+    description CHAR(512),
+    id_conference INTEGER REFERENCES conferences (id) ON DELETE CASCADE,
+    id_speaker INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-13T19:10:32.524010
+CREATE TABLE schedule(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    hour CHAR(512),
+    duration INTEGER,
+    talk INTEGER REFERENCES talks (id) ON DELETE CASCADE
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

@@ -9,10 +9,11 @@ response.menu = []
 if auth.user:
     if auth.has_membership("admin"):
         response.menu = [
-            #(<NAME>, False, URL(<Controller>, <Action>)),
+            ('Conferences', False, URL('conference', 'conference')),
+            ('Lectures', False, URL('lecture', 'lecture')),
         ]
     elif auth.has_membership("user"):
         response.menu = [
-            ('Conferences', False, URL('conference', 'conference', args=[auth.user.id])),
-            ('Lectures', False, URL('lecture', 'lecture', args=[auth.user.id])),
+            ('Conferences', False, URL('conference', 'conference')),
+            ('Lectures', False, URL('lecture', 'lecture')),
         ]

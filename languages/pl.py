@@ -87,6 +87,7 @@
 'Internal State': 'Stan wewnętrzny',
 'Introduction': 'Introduction',
 'Invalid email': 'Błędny adres email',
+'Invalid login': 'Invalid login',
 'Invalid Query': 'Błędne zapytanie',
 'invalid request': 'Błędne żądanie',
 'Invalid username': 'Invalid username',
