@@ -46,6 +46,7 @@ db.define_table(
     'talks',
     Field('topic', length=100, requires=[IS_NOT_EMPTY()]),
     Field('description', requires=[IS_NOT_EMPTY()]),
+    Field('status', requires=[IS_IN_SET(('unverified', 'accepted', 'rejected'))]),
     Field('id_conference', 'reference conferences'),
     Field('id_speaker', 'reference auth_user'),
 )

@@ -14,7 +14,7 @@ if auth.user:
         ]
     elif auth.has_membership("user"):
         response.menu = [
-            ('Organise conference', False, URL('conference', 'view', vars={"owner":auth.user.id})),
-            ('Give a speech', False, URL('conference', 'view')),
+            ('Organise conference', False, URL('conference', 'view')),
+            ('Give a speech', False, URL('conference', 'list')),
             ('Your speeches', False, URL('lecture', 'view')),
         ]

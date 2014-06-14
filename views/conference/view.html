@@ -1,7 +1,5 @@
 {{extend 'layout.html'}}
 <h1><small>{{=message}}</small></h1>
-{{if (request.vars["owner"]): }}
-	<span id="addnig-conference">
-	{{=A("Add new conference", _href=URL('conference', 'new'))}}, now!</span>
-	{{pass}}
+<span id="addnig-conference">
+{{=A("Add new conference", _href=URL('conference', 'new'))}}, now!</span>
 {{=grid}}
