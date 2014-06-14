@@ -1,6 +1,6 @@
 @auth.requires(auth.has_membership('user'))
 def new():
-    if (not request.vars["conference"]):
+    if (not request.vars["conference"] or not db.conferences(request.vars["conference"])):
         redirect(URL("conference", "list"))
     
     db.talks.id_speaker.readable = db.talks.id_speaker.writable = False

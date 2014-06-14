@@ -58,10 +58,14 @@ def new():
 
 @auth.requires(auth.has_membership('user'))
 def agenda():
+    if(not db.conferences(request.vars["conference"]) or (db.conferences(request.vars["conference"]).organiser != auth.user.id)):
+        redirect(URL("privilages","error"))
     return locals()
 
 @auth.requires(auth.has_membership('user'))
 def details():
+    if(not db.conferences(request.vars["conference"]) or (db.conferences(request.vars["conference"]).organiser != auth.user.id)):
+        redirect(URL("privilages","goaway"))
     db.conferences.organiser.writable = False
     crud.settings.update_next = URL('view')
     crud.settings.update_deletable = False
