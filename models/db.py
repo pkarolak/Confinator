@@ -31,12 +31,14 @@ auth.settings.registration_requires_approval = False
 #     format = '%(name)s, %(city)s',
 # )
 db.auth_user._format = "%(first_name)s %(last_name)s"
+
 db.define_table(
     'conferences',
     Field('name'),
     # Field('location', db.conference_halls),
     Field('time', 'datetime'),
     Field('organiser', 'reference auth_user'),
+    format="%(name)s"
 )
 
 db.define_table(
@@ -46,6 +48,9 @@ db.define_table(
     Field('id_conference', 'reference conferences'),
     Field('id_speaker', 'reference auth_user'),
 )
+
+db.talks.id_conference.label = T('Conference')
+db.talks.id_speaker.label = T('Speaker')
 
 
 db.define_table(
