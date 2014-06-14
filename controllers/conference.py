@@ -87,6 +87,7 @@ def schedule():
         searchable=False,
         left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
         fields=fields,
+        maxtextlength=200,
         links=[
             dict(
                 header='',
@@ -110,6 +111,7 @@ def schedule():
         searchable=False,
         left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
         fields=fields,
+        maxtextlength=200,
         links=[
             # dict(
             #     header='',
@@ -129,7 +131,6 @@ def api():
     if len(request.args) < 3:
         session.flash('Wrong aruments')
         redirect(URL("conference", "view"))
-
     db(db.talks.id == request.args(1)).update(status=request.args(2))
     session.flash = 'Talk proposal has beed %s' % request.args(2)
     redirect(URL("conference", "schedule", vars={"conference": request.args(0)}))

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""
 {
 '!=': '!=',
 '!langcode!': 'pl',
@@ -251,3 +252,5 @@
 'You visited the url %s': 'You visited the url %s',
 'Zaloguj': 'Zaloguj',
 }
+"""
+{}
