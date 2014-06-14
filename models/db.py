@@ -40,6 +40,7 @@ db.define_table(
     Field('organiser', 'reference auth_user'),
     format="%(name)s"
 )
+db.conferences.name.label = T('Conference name')
 
 db.define_table(
     'talks',

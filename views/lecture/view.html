@@ -1,2 +1,7 @@
 {{extend "layout.html"}}
 {{=grid}}
+{{if (request.vars["Past"]):}}
+{{=A("Show incoming lectures", _href=URL("lecture", "view"))}}
+{{else:}}
+{{=A("Show the lectures I gave", _href=URL("lecture", "view", vars={"Past":True}))}}
+{{pass}}

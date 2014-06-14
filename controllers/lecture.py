@@ -16,11 +16,15 @@ def new():
 
 @auth.requires(auth.has_membership('user'))
 def view():
-	query = (db.talks.id_speaker == auth.user.id)
+	query = None
+	if(request.vars["Past"]):
+		query = ((db.talks.id_speaker == auth.user.id) & (db.conferences.time < request.now.date))
+	else:	
+		query = ((db.talks.id_speaker == auth.user.id) & (db.conferences.time >= request.now.date))
 	fields = [
 				db.talks.topic,
 				db.talks.description,
-				db.conferences.name,
+				db.talks.id_conference,
 				db.conferences.time,
 			]
 	left = [db.talks.on(db.conferences.id == db.talks.id_conference)]
@@ -33,5 +37,8 @@ def view():
 	        create=False,
 	        csv=False,
 	        searchable=False,
+	        links=[
+	        		dict(header='Show conference agenda!', body=lambda row: A('Take a look', _href=URL("conference","agenda", vars={"conference":row.talks.id_conference})) ),
+	        	],
 	    )
 	return locals()

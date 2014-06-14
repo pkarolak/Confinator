@@ -52,6 +52,7 @@
 'Community': 'Community',
 'Components and Plugins': 'Components and Plugins',
 'Conference': 'Conference',
+'Conference name': 'Conference name',
 'contains': 'contains',
 'Controller': 'Kontroler',
 'Copyright': 'Copyright',
