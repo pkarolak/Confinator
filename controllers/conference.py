@@ -136,6 +136,6 @@ def api():
         session.flash('Wrong aruments')
         redirect(URL("conference", "view"))
     db(db.talks.id == request.args(1)).update(status=request.args(2))
-    session.flash = 'Talk proposal has beed %s' % request.args(2)
+    session.flash = 'Talk proposal has been %s' % request.args(2)
     redirect(URL("conference", "schedule", vars={"conference": request.args(0)}))
     return locals()
