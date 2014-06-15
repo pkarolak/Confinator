@@ -58,7 +58,7 @@ def new():
 
 @auth.requires(auth.has_membership('user'))
 def agenda():
-    if(not db.conferences(request.vars["conference"]) or (db.conferences(request.vars["conference"]).organiser != auth.user.id)):
+    if(not db.conferences(request.vars["conference"])):
         redirect(URL("privilages","error"))
     return locals()
 
