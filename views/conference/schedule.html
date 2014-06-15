@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
 <ul id="sortable">
 {{for row in lectures:}}
   <li id="{{=row.id}}_item" class="sortable_item">
-    {{=row.topic+": "+row.description+ " by: "}}
+    {{=row.topic+": "+row.description}}
   </li>
 {{pass}}
 </ul>
