@@ -107,31 +107,34 @@ def schedule():
     )   
 
     # TODO ustawianie agendy
-    grid = SQLFORM.grid(
-        ((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')),
-        orderby=db.talks.which,
-        user_signature=False,
-        editable=False,
-        deletable=False,
-        details=False,
-        create=False,
-        csv=False,
-        searchable=False,
-        left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
-        fields=fields,
-        maxtextlength=200,
-        sortable=False,
-        links=[
-             dict(
-                 header='',
-                 body=lambda row: A('up', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'up', 'index':row.talks.which}))
-             ),
-             dict(
-                 header='',
-                 body=lambda row: A('down', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'down', 'index':row.talks.which}))
-             )
-        ]
-    )   
+    #grid = SQLFORM.grid(
+    #    ((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')),
+    #    orderby=db.talks.which,
+    #   user_signature=False,
+    #    editable=False,
+    #    deletable=False,
+    #    details=False,
+    #    create=False,
+    #    csv=False,
+    #    searchable=False,
+    #    left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
+    #    fields=fields,
+    #    maxtextlength=200,
+    #    sortable=False,
+    #    links=[
+    #         dict(
+    #             header='',
+    #             body=lambda row: A('up', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'up', 'index':row.talks.which}))
+    #         ),
+    #         dict(
+    #             header='',
+    #             body=lambda row: A('down', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'down', 'index':row.talks.which}))
+    #         )
+    #    ]
+    #)   
+
+    lectures = db((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')).select(orderby = db.talks.which)
+
 
     return locals()
 
@@ -164,3 +167,9 @@ def sort():
 
     redirect(URL("schedule", vars={"conference":request.vars["conference"]}))
     return locals()
+
+@auth.requires(auth.has_membership('user'))
+def sort_dd():
+    for i,id in enumerate(request.vars.order.split(',')[:-1]):
+        db(db.talks.id==id).update(which=i+1)
+    return 'done'

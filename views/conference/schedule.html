@@ -1,6 +1,31 @@
 {{extend "layout.html"}}
+<script src="{{=URL(request.application,'static/js','jquery-1.10.2.js')}}"></script>
+<script src="{{=URL(request.application,'static/js','jquery-ui-1.10.4.min.js')}}"></script>
+
+<script>
+function sortUpdate(a,b) {
+    var dragEls = jQuery(".sortable_item");
+    var els = '';
+    jQuery.each(dragEls, function () {
+        var cur_id = jQuery(this).attr('id').split('_').shift();
+        els += cur_id+",";});
+    var url = '{{=URL("conference","sort_dd")}}?order='+els;
+    jQuery.get(url);
+}
+jQuery(document).ready(function() {
+	jQuery("#sortable").sortable({stop:function(a,b){sortUpdate(a,b);}});
+});
+</script>
+
 <h3>New talks proposals:</h3>
 {{=proposals}}
 
-<h3>Manage talks:</h3>
-{{=grid}}
+<h3>Manage talks: <small>(it's sexy, drag&drop)</small></h3>
+
+<ul id="sortable">
+{{for row in lectures:}}
+  <li id="{{=row.id}}_item" class="sortable_item">
+    {{=row.topic+": "+row.description+ " by: "}}
+  </li>
+{{pass}}
+</ul>
