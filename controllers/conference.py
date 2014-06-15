@@ -106,35 +106,31 @@ def schedule():
         ]
     )   
 
-    # TODO ustawianie agendy
-    #grid = SQLFORM.grid(
-    #    ((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')),
-    #    orderby=db.talks.which,
-    #   user_signature=False,
-    #    editable=False,
-    #    deletable=False,
-    #    details=False,
-    #    create=False,
-    #    csv=False,
-    #    searchable=False,
-    #    left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
-    #    fields=fields,
-    #    maxtextlength=200,
-    #    sortable=False,
-    #    links=[
-    #         dict(
-    #             header='',
-    #             body=lambda row: A('up', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'up', 'index':row.talks.which}))
-    #         ),
-    #         dict(
-    #             header='',
-    #             body=lambda row: A('down', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'down', 'index':row.talks.which}))
-    #         )
-    #    ]
-    #)   
-
     lectures = db((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')).select(orderby = db.talks.which)
 
+
+    return locals()
+
+@auth.requires(auth.has_membership('user'))
+def agenda():
+    # TODO ustawianie agendy
+    grid = SQLFORM.grid(
+        ((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')),
+        orderby=db.talks.which,
+        user_signature=False,
+        editable=False,
+        deletable=False,
+        details=False,
+        create=False,
+        csv=False,
+        searchable=False,
+        left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
+        fields=[db.talks.which, db.talks.topic, db.talks.description],  # dobrze byloby dac zamiast db.talks.which czas_rozpoczenia + db.talks.which * czas_trwania, ale nie wiem czy da sie to zrobic na tym gridzie
+        #headers={'test', 'topic':'test', 'description':'test'},
+        #labels=dict(which='test', topic='test', description='test'),
+        maxtextlength=200,
+        sortable=False
+    )   
 
     return locals()
 
