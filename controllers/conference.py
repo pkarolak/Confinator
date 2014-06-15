@@ -125,9 +125,7 @@ def agenda():
         csv=False,
         searchable=False,
         left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
-        fields=[db.talks.which, db.talks.topic, db.talks.description],  # dobrze byloby dac zamiast db.talks.which czas_rozpoczenia + db.talks.which * czas_trwania, ale nie wiem czy da sie to zrobic na tym gridzie
-        #headers={'test', 'topic':'test', 'description':'test'},
-        #labels=dict(which='test', topic='test', description='test'),
+        fields=[db.talks.which, db.talks.topic, db.talks.id_speaker, db.talks.description],  # dobrze byloby dac zamiast db.talks.which czas_rozpoczenia + db.talks.which * czas_trwania, ale nie wiem czy da sie to zrobic na tym gridzie, do tego zmienic headers (cos mi to nie wychodzi ._.) + dodac autora prelekcji
         maxtextlength=200,
         sortable=False
     )   
