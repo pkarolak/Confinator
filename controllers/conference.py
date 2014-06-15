@@ -75,13 +75,15 @@ def details():
 @auth.requires(auth.has_membership('user'))
 def schedule():
     fields = [
+        db.talks.which,
         db.auth_user.first_name,
         db.auth_user.last_name,
         db.talks.topic,
         db.talks.description,
     ]
     
-    proposals = SQLFORM.grid(db.talks.id_conference == request.vars['conference'] and db.talks.status == 'unverified',
+    proposals = SQLFORM.grid(
+        ((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'unverified')),
         user_signature=False,
         editable=False,
         deletable=False,
@@ -105,7 +107,9 @@ def schedule():
     )   
 
     # TODO ustawianie agendy
-    grid = SQLFORM.grid(db.talks.id_conference == request.vars['conference'] and db.talks.status == 'accepted',
+    grid = SQLFORM.grid(
+        ((db.talks.id_conference == request.vars['conference']) & (db.talks.status == 'accepted')),
+        orderby=db.talks.which,
         user_signature=False,
         editable=False,
         deletable=False,
@@ -116,15 +120,16 @@ def schedule():
         left=db.talks.on(db.auth_user.id == db.talks.id_speaker),
         fields=fields,
         maxtextlength=200,
+        sortable=False,
         links=[
-            # dict(
-            #     header='',
-            #     body=lambda row: A('Accept', _href=URL("api", args=[request.vars['conference'], row.talks.id, 'accepted']))
-            # ),
-            # dict(
-            #     header='',
-            #     body=lambda row: A('Reject', _href=URL("api", args=[request.vars['conference'], row.talks.id, 'rejected']))
-            # )
+             dict(
+                 header='',
+                 body=lambda row: A('up', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'up', 'index':row.talks.which}))
+             ),
+             dict(
+                 header='',
+                 body=lambda row: A('down', _href=URL("sort", vars={'conference':request.vars['conference'],'talk':row.talks.id, 'direction':'down', 'index':row.talks.which}))
+             )
         ]
     )   
 
@@ -135,7 +140,27 @@ def api():
     if len(request.args) < 3:
         session.flash('Wrong aruments')
         redirect(URL("conference", "view"))
+    if(request.args(2) == "accepted"):
+        last = db((db.talks.id_conference == request.args(0)) & (db.talks.status == "accepted")).select(db.talks.which.max())
+        last = last[0]['MAX(talks.which)'] if (last[0]['MAX(talks.which)'] != None) else 0
+        db(db.talks.id == request.args(1)).update(which=last + 1)
     db(db.talks.id == request.args(1)).update(status=request.args(2))
     session.flash = 'Talk proposal has been %s' % request.args(2)
     redirect(URL("conference", "schedule", vars={"conference": request.args(0)}))
+    return locals()
+
+@auth.requires(auth.has_membership('user'))
+def sort():
+    last = db((db.talks.id_conference == request.vars["conference"]) & (db.talks.status == "accepted")).select(db.talks.which.max())
+    last = last[0]['MAX(talks.which)'] if (last[0]['MAX(talks.which)'] != None) else 0
+    
+    if((request.vars["direction"] == "up") and (request.vars["index"] != str(1))):
+        db((db.talks.which == int(request.vars["index"])-1) & (db.talks.status == "accepted")).update(which = int(request.vars["index"]))
+        db(db.talks.id == request.vars["talk"]).update(which=int(request.vars["index"])-1)
+
+    if((request.vars["direction"] == "down") and (request.vars["index"] != str(last))):
+        db((db.talks.which == int(request.vars["index"])+1) & (db.talks.status == "accepted")).update(which = int(request.vars["index"]))
+        db(db.talks.id == request.vars["talk"]).update(which=int(request.vars["index"])+1)
+
+    redirect(URL("schedule", vars={"conference":request.vars["conference"]}))
     return locals()

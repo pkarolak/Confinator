@@ -9,6 +9,11 @@ def new():
     db.talks.id_conference.writable = False
     db.talks.id_conference.default = request.vars["conference"]
 
+
+    db.talks.which.writable = False
+    db.talks.which.readible = False
+    
+
     crud.settings.create_next = URL('lecture','view')
 
     db.talks.status.readable = db.talks.status.writable = False

@@ -38,9 +38,11 @@ db.define_table(
     # Field('location', db.conference_halls),
     Field('time', 'datetime'),
     Field('organiser', 'reference auth_user'),
+    Field('talks_number', 'integer', requires=[IS_NOT_EMPTY(), IS_INT_IN_RANGE(1, 48)]),
     format="%(name)s"
 )
 db.conferences.name.label = T('Conference name')
+db.conferences.talks_number.requires = [IS_NOT_EMPTY(), IS_INT_IN_RANGE(1, 48)]
 
 db.define_table(
     'talks',
@@ -49,6 +51,7 @@ db.define_table(
     Field('status', requires=[IS_IN_SET(('unverified', 'accepted', 'rejected'))]),
     Field('id_conference', 'reference conferences'),
     Field('id_speaker', 'reference auth_user'),
+    Field('which', 'integer', requires=[IS_NOT_EMPTY(), IS_INT_IN_RANGE(1, 48)]),
 )
 
 db.talks.id_conference.label = T('Conference')
