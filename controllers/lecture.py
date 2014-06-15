@@ -13,12 +13,11 @@ def new():
     db.talks.which.writable = False
     db.talks.which.readible = False
     
-
     crud.settings.create_next = URL('lecture','view')
 
     db.talks.status.readable = db.talks.status.writable = False
     db.talks.status.default = 'unverified'
-    grid = crud.create(db.talks)
+    grid = crud.create(db.talks, message = 'Your speech has been added')
     return locals()
 
 @auth.requires(auth.has_membership('user'))
