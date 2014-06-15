@@ -22,10 +22,17 @@ jQuery(document).ready(function() {
 
 <h3>Manage talks: <small>(it's sexy, drag&drop)</small></h3>
 
-<ul id="sortable">
-{{for row in lectures:}}
-  <li id="{{=row.id}}_item" class="sortable_item">
-    {{=row.topic+": "+row.description}}
-  </li>
-{{pass}}
-</ul>
+
+<table class="table table-striped table-condensed">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
+    <tbody id="sortable">
+        {{for row in lectures:}}
+            <tr id="{{=row.id}}_item" class="sortable_item">
+                <td>{{=row.topic}}</td><td>{{=row.description}}</td>
+            </tr>
+        {{pass}}
+    </tbody>
+</table>
