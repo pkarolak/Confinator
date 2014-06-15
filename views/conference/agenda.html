@@ -1,2 +1,2 @@
 {{extend "layout.html"}}
-<h3>Agenda of {{=request.vars["conference_name"]}}</h3>
+<h3>Agenda of {{=db.conferences(request.vars["conference"]).name}}</h3>

@@ -39,7 +39,7 @@ def list():
         create=False,
         links=[
                 dict(header='', body=lambda row: A('Give a speech', _href=URL("lecture", "new", vars={"conference":row.id})) ),
-                dict(header='', body=lambda row: A('See agenda', _href=URL("agenda", vars={"conference":row.id, "conference_name":row.name})) ),
+                dict(header='', body=lambda row: A('See agenda', _href=URL("agenda", vars={"conference":row.id})) ),
             ],
         csv=False,
         maxtextlength=200,
